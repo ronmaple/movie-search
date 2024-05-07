@@ -4,6 +4,7 @@ import { useDebounce } from 'use-debounce'
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Loader from '../../components/Loader/Loader'
@@ -96,8 +97,10 @@ const MovieSearch = () => {
               {searchInput === '' ? '...' : `"${searchInput}"`}
             </Typography>
           )}
-          {touched && (loading ? <Loader /> : <Poster {...results}></Poster>)}
-          {error && <span>Something went wrong!</span>}
+          <Grid container justifyContent="center">
+            {touched && (loading ? <Loader /> : <Poster {...results}></Poster>)}
+            {error && <span>Something went wrong!</span>}
+          </Grid>
         </Stack>
       </Container>
     </Box>

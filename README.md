@@ -11,3 +11,5 @@
 3. Replace values
 4. `npm install`
 5. `npm run dev`
+
+![screenshot](./client/public/app.png)
