@@ -16,19 +16,19 @@ const Poster = (props: MovieDataProps) => {
           <CardMedia
             component="img"
             height="140"
-            image={props.poster}
-            alt={`Poster for ${props.title}`}
+            image={props?.poster}
+            alt={`Poster for ${props?.title}`}
           />
         </CardContent>
         <CardContent sx={{ flex: 2, width: 300 }}>
           <Typography gutterBottom variant="h6" component="div">
-            {props.title}
+            {props?.title}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
-            {props.released}
+            {props?.released}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {props.plot}
+            {props?.plot}
           </Typography>
 
           <CardActions>

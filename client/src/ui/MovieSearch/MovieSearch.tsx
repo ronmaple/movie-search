@@ -9,58 +9,24 @@ import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Loader from '../../components/Loader/Loader'
 
-import { MovieData } from './types'
 import Poster from './Poster'
-import omdbService from '../../services/OmdbApiService'
-
+import useGetMovie from './useGetMovie'
+// TODO:
+// 1 useGetMovie
+// 2 Grid logic
+// 3 state
 const MovieSearch = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
-  const [touched, setTouched] = useState<boolean>(false)
-  const [results, setResults] = useState<MovieData>({} as MovieData)
+  // const [touched, setTouched] = useState<boolean>(false)
   const [searchInput] = useDebounce(searchQuery, 500)
-  const [error, setError] = useState<boolean>(false)
+  const { data, loading, error } = useGetMovie(searchInput)
 
   const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
-    setLoading(true)
-    setError(false)
-    if (!touched) {
-      setTouched(true)
-    }
+    // if (!touched) {
+    //   setTouched(true)
+    // }
   }
-
-  useEffect(() => {
-    try {
-      if (searchInput) {
-        omdbService.getByTitle(searchInput).then((data) => {
-          setResults({
-            actors: data.Actors,
-            country: data.Country,
-            director: data.Director,
-            genre: data.Genre,
-            metascore: data.Metascore,
-            plot: data.Plot,
-            poster: data.Poster,
-            rated: data.Rated,
-            // ratings: { Source: string; Value: string }[]
-            released: data.Released,
-            runtime: data.Runtime,
-            title: data.Title,
-            type: data.Type, // Type: movie
-            writer: data.Writer,
-            year: data.Year,
-            imdbID: data.imdbID,
-            imdbRating: data.imdbRating,
-          })
-          setLoading(false)
-          return data
-        })
-      }
-    } catch (error) {
-      setError(true)
-    }
-  }, [searchInput])
 
   return (
     <Box
@@ -86,7 +52,7 @@ const MovieSearch = () => {
             }}
             onChange={handleSearchInput}
           />
-          {touched && (
+          {data && (
             <Typography
               variant="subtitle1"
               align="left"
@@ -98,7 +64,7 @@ const MovieSearch = () => {
             </Typography>
           )}
           <Grid container justifyContent="center">
-            {touched && (loading ? <Loader /> : <Poster {...results}></Poster>)}
+            {data && (loading ? <Loader /> : <Poster {...data}></Poster>)}
             {error && <span>Something went wrong!</span>}
           </Grid>
         </Stack>
